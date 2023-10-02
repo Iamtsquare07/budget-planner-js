@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="styles.css">
+        <title>
+        Finance Buddy
+    </title>
+    </head>
+    <body>
+        <h1>Finance <span id="financeSpan">Buddy</span></h1>
+        <div class="budget">  
+                <div>
+                <h4>Plan Your Budget</h4>
+                <div id='expenseDiv1'>
+                    <form id="expenseForm">
+                        <label for="name">Name:  </label>
+                    <input id="expenseText" placeholder="Eg: Groceries" type="text" required>
+                    <label for="date">Date: </label>
+                    <input id="expenseDate" type="date" value="" required>
+                    <label for="amount">Amount: </label>
+                    <input id="expenseAmount" type="number" required>
+                    <br>
+                    <h5 id="warning"></h5>
+                        <br>
+                    <div id="addExpenseDiv">
+                    <input id="addExpenseBtn" type="button" value="Add expense">
+                    </div>
+                </form>
+                </div>
+                </div>
+            <br>
+            <div id="financeRes">
+                <table id="expenseTable"><tbody><tr>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>Amount</th>
+                    <th></th>
+                </tr>
+            </tbody>
+                </table>
+                <div id="messageDiv">Nothing is added yet!</div>
+                <div id="financeTotal"></div>
+                <div id='expenseAmountTotal'><button id="totalBtnId"></button></div>
+            </div>
+        </div>
+        <script src="/index.js"></script>
+    </body>
+</html>
