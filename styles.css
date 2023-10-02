@@ -1,0 +1,195 @@
+body {
+    padding: 10px;
+    background-color: #000014;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    overflow-y: auto;
+    color: #c2c5ff;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+h1,
+h4 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: rgba(255, 217, 0, 0.61);
+    font-family: 'Croissant One', cursive;
+}
+
+.budget {
+    font-family: Arial, sans-serif;
+    color: #bfd0ff;
+    margin: auto;
+    width: 90%;
+    height: auto;
+    margin-top: 10px;
+    background-color: #00006e;
+    padding: 50px 20px 50px 20px;
+    padding-top: 10px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 5px 1px #1b37b4;
+    
+}
+
+
+#financeSpan {
+    color: red;
+}
+
+
+#addExpenseBtn {
+    background-color: blue;
+    color: white;
+    border-radius: 5px;
+    margin: auto;
+    width: auto;
+}
+#addExpenseBtn:hover {
+    background-color: #04AA6D;
+    color: white;
+}
+#addExpenseDiv {
+    display: flex;
+    justify-content: center;
+    padding-top: 15px;
+}
+
+
+input, select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+#expenseTable {
+    width: 100%;
+    border-collapse: collapse;
+    color:black;
+}
+
+th {
+    background-color: #04AA6D;
+    color: white;
+    text-align: left;
+}
+
+#expenseTable td, #expenseTable th {
+border: 1px solid #ddd;
+padding: 8px;
+}
+
+#expenseTable tr:nth-child(even) {background-color: #f2f2f2;
+}
+
+
+#messageDiv {
+    background-color: #f2f2f2;
+    padding: 10px;
+}
+
+#expenseDiv1 {
+    margin: auto;
+    width: 80%;
+}
+
+#financeRes {
+    margin: auto;
+    width: 80%;
+    color:black;
+    
+}
+
+#delete {
+    background-color: #6666f5;
+    color: white;
+    border: 1px solid #8484ff;
+    border-radius:5px;
+}
+
+#delete:hover {
+    background-color: #ccc;
+    
+}
+#expenseH5 {
+    text-align: center;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: rgb(105, 104, 104);
+    background-blend-mode:difference;
+}
+
+#expenseText:focus {
+    border: 2px solid rgb(255, 217, 0);
+}
+
+#expenseAmount:focus {
+    border: 2px solid red;
+}
+
+#warning {
+    text-align: center;
+    color: red;
+    font-weight: 500;
+}
+
+#totalBtnId.showButton {
+    background-color: blue;
+    color: white;
+    border-radius: 5px;
+}
+#totalBtnId {
+    background-color: white;
+    border-style: hidden;
+    margin: auto;
+    width: 100px;
+}
+#totalBtnId:hover {
+    background-color: #04AA6D;
+    border-radius: 5px;
+}
+
+#expenseAmountTotal {
+    margin: auto;
+    width: 30vw;
+    text-align: center;
+    padding-top: 20px;
+}
+#financeTotal {
+    margin: auto;
+    text-align: center;
+    padding: 7px;
+    font-weight: 600;
+}
+.activeTotal {
+    background-color: #f2f2f2;
+}
+
+::-webkit-scrollbar {
+    width: 2px;
+}
+
+/* Style the scrollbar thumb (the draggable part) */
+::-webkit-scrollbar-thumb {
+    background: #3551f185;
+    border-radius: 2px;
+    
+}
+
+/* Style the scrollbar track when hovering over it */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+@media only screen and (min-width: 1024px) {
+    .budget {
+        width: 50%;
+        max-height: 100vh;
+        height: 100vh;
+    }
+}
