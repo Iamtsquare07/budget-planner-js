@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <link rel="stylesheet" href="styles.css">
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         <title>
         Finance Buddy
     </title>
@@ -10,8 +11,21 @@
         <h1>Finance <span id="financeSpan">Buddy</span></h1>
         <div class="budget">  
                 <div>
-                <h4>Plan Your Budget</h4>
+                <h2>Plan Your Budget</h2>
+                <div class="dashboard">
+                    <div>
+                        <canvas id="budgetChart"></canvas>
+                      </div>
+                <div class="income">
+                    <h3>My Total Income</h3>
+                    <div id="total-income"></div>
+                    <button id="update">Update Income</button>
+                </div> 
+                </div>
+                <hr>
+                <br>
                 <div id='expenseDiv1'>
+                    <h3>Add expenses for the month</h3>
                     <form id="expenseForm">
                         <label for="name">Name:  </label>
                     <input id="expenseText" placeholder="Eg: Groceries" type="text" required>
