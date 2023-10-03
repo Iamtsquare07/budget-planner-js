@@ -12,6 +12,8 @@ body {
 }
 
 h1,
+h2,
+h3,
 h4 {
     text-align: center;
     margin-bottom: 20px;
@@ -34,6 +36,15 @@ h4 {
     
 }
 
+#budgetChart {
+    max-width: 250px;
+    max-height: 250px;
+    text-align: center;
+    margin: auto;
+    margin-bottom: 10px;
+    margin-top: 50px;
+}
+
 
 #financeSpan {
     color: red;
@@ -46,6 +57,7 @@ h4 {
     border-radius: 5px;
     margin: auto;
     width: auto;
+    padding: 5px;
 }
 #addExpenseBtn:hover {
     background-color: #04AA6D;
@@ -71,7 +83,7 @@ input, select {
 #expenseTable {
     width: 100%;
     border-collapse: collapse;
-    color:black;
+    color:white;
 }
 
 th {
@@ -85,7 +97,7 @@ border: 1px solid #ddd;
 padding: 8px;
 }
 
-#expenseTable tr:nth-child(even) {background-color: #f2f2f2;
+#expenseTable tr:nth-child(even) {background-color: #f2f2f2;color:black;
 }
 
 
@@ -186,10 +198,55 @@ padding: 8px;
     background: #555;
 }
 
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 100px;
+}
+
+.income {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 200px;
+    margin-bottom: 10px;
+}
+
+#total-income {
+    font-size: large;
+    font-weight: 600;
+    margin: 10px;
+}
+
+.dashboard button {
+    padding: 10px;
+    background-color:#3232fa;
+    border:1px solid #3232fa;
+    border-radius:25px;
+    color:#fff;
+    font-weight: 600;
+}
+
+hr {
+    width: 100%;
+    height: 3px;
+    background-color: #010541; 
+    border: none;
+    margin-top: 5px;
+}
+
 @media only screen and (min-width: 1024px) {
     .budget {
         width: 50%;
-        max-height: 100vh;
-        height: 100vh;
     }
+
+    #budgetChart {
+        max-width: 300px;
+        max-height: 300px;
+    }
+
+    .dashboard {
+        flex-direction: row;
+    }
+    
 }
