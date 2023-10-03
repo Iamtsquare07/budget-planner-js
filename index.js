@@ -9,11 +9,118 @@ const mainBody = document.querySelector("#financeRes"),
   financeTable = document.querySelector("#expenseTable"),
   AmountTotal = document.querySelector("#expenseAmountTotal"),
   expenseWarning = document.querySelector("#warning"),
-  totalInputBtn = document.querySelector("#totalBtnId"),
   grandTotal = document.querySelector("#financeTotal");
 
 //Retrieving today's date
 financeDate.valueAsDate = new Date();
+
+function reset() {
+    localStorage.removeItem("income");
+    localStorage.removeItem("rowId");
+    localStorage.removeItem("financeData");
+    localStorage.removeItem("spending");
+
+    const url = window.location.href;
+    window.open(url, "_blank")
+}
+
+// Function to update the table from local storage
+function updateTableFromLocalStorage() {
+  const financeData = localStorage.getItem("financeData");
+  const dataArray = JSON.parse(financeData);
+  if (dataArray.length > 0) {
+    const rowCount = financeTable.rows.length;
+
+    // Remove all rows except the first one (headers)
+    if (rowCount > 1) {
+      for (let i = rowCount - 1; i >= 1; i--) {
+        financeTable.deleteRow(i);
+      }
+      console.log("executed");
+    }
+    let financeCell3;
+    let totalVal = 0;
+
+    dataArray.forEach((data, index) => {
+      const financeRow = financeTable.insertRow();
+      financeRow.setAttribute("id", data.rowId);
+      const financeCell = financeRow.insertCell();
+      const financeCell2 = financeRow.insertCell(1);
+      financeCell3 = financeRow.insertCell(2);
+      const financeCell4 = financeRow.insertCell(3);
+
+      // Create a delete button
+      const delBtn = document.createElement("button");
+      delBtn.innerHTML = "X";
+      delBtn.id = "delete";
+
+      // Populate the table cells with data from local storage
+      financeCell.innerHTML = data.name;
+      financeCell2.innerHTML = data.date;
+      financeCell3.innerHTML = data.amount;
+      financeCell4.appendChild(delBtn);
+
+      // Update totalVal
+      totalVal += parseInt(data.amount);
+    });
+
+    //Clearing the recent values
+    financeText.value = "";
+    financeAmount.value = "";
+    grandTotal.innerHTML = "";
+    financeMessage.remove();
+
+    //Bringing back the focus to the input
+    financeText.focus();
+    expenseWarning.innerHTML = "";
+    document.getElementById("clear").style.display = "block"
+    financeCell3.id = "itemAmount";
+    localStorage.setItem("spending", totalVal);
+    addDailySpending(totalVal);
+    grandTotal.classList.add("activeTotal");
+    grandTotal.innerHTML = "Spending Total: $" + totalVal;
+
+    // Attach a click event handler for delete buttons using event delegation
+    financeTable.addEventListener("click", function (event) {
+      if (event.target && event.target.id === "delete") {
+        const rowToDelete = event.target.closest("tr");
+        console.log(rowToDelete);
+        const rowId = event.target.closest("tr").id;
+        console.log(rowId);
+        rowToDelete.remove();
+        // Find the index of the data entry to delete
+        // Find the object in dataArray with the matching rowId
+        const objectToDelete = dataArray.find(
+          (item) => parseInt(item.rowId) === parseInt(rowId)
+        );
+        console.log(objectToDelete);
+        if (objectToDelete) {
+          // Remove the object from dataArray
+          const dataIndex = dataArray.indexOf(objectToDelete);
+          dataArray.splice(dataIndex, 1);
+
+          // Update localStorage and recalculate totalVal
+          localStorage.setItem("financeData", JSON.stringify(dataArray));
+          totalVal = dataArray.reduce(
+            (total, item) => total + parseInt(item.amount),
+            0
+          );
+          updateTableFromLocalStorage();
+        }
+      }
+    });
+  } else {
+    grandTotal.innerHTML = "";
+    totalVal = 0;
+    localStorage.setItem("spending", totalVal);
+    addDailySpending(totalVal);
+  }
+}
+
+// Call the update function when your page loads
+window.onload = function () {
+  updateTableFromLocalStorage();
+};
 
 //The output
 const financeOutput = () => {
@@ -23,59 +130,34 @@ const financeOutput = () => {
   } else if (financeAmount.value.length === 0) {
     financeAmount.focus();
   } else {
-    //Creating Table elements
-    const financeRow = financeTable.insertRow();
-    const financeCell = financeRow.insertCell();
-    const financeCell2 = financeRow.insertCell(1);
-    const financeCell3 = financeRow.insertCell(2);
-    const financeCell4 = financeRow.insertCell(3);
+    // Function to save finance data to local storage
+    let rowIdCounter = localStorage.getItem("rowId") || 1; // Initialize the row ID counter
 
-    //creating delete button
-    const delBtn = document.createElement("button");
-    delBtn.innerHTML = "X";
-    delBtn.id = "delete";
-    const buttonValue = delBtn;
+    // Function to save finance data to local storage
+    async function saveToLocalStorage() {
+      const financeData = localStorage.getItem("financeData");
+      const newData = {
+        name: financeText.value,
+        date: financeDate.value,
+        amount: financeAmount.value,
+        rowId: rowIdCounter, // Assign the row ID to the new data
+      };
 
-    //Retrieving input from user
-    financeCell.innerHTML = financeText.value;
-    financeCell2.innerHTML = financeDate.value;
-    financeCell3.innerHTML = financeAmount.value;
-    financeCell4.appendChild(delBtn);
+      // Check if there's existing data in local storage
+      let dataArray = financeData ? JSON.parse(financeData) : [];
 
-    //Deleting the table item
-    function deleteITem(event) {
-      event.path[(1, 2)].remove();
-    }
-    delBtn.addEventListener("click", deleteITem, false);
+      // Add the new data to the array
+      dataArray.push(newData);
 
-    //Clearing the recent values
-    financeText.value = "";
-    financeAmount.value = "";
-    grandTotal.innerHTML = "";
-    financeMessage.remove();
+      // Store the updated data in local storage
+      localStorage.setItem("financeData", JSON.stringify(dataArray));
 
-    totalInputBtn.classList.add("showButton"); //display the button
-    //Bringing back the focus to the input
-    financeText.focus();
-    expenseWarning.innerHTML = ""; //clearing warning messages
-
-    financeCell3.id = "itemAmount";
-    totalInputBtn.innerHTML = "Total"; //creating total button
-
-    //Creating the sum
-    var table = financeTable,
-      totalVal = 0;
-    for (var i = 1; i < table.rows.length; i++) {
-      totalVal = totalVal + parseInt(table.rows[i].cells[2].innerHTML);
+      // Increment the row ID counter for the next row
+      rowIdCounter++;
+      localStorage.setItem("rowId", rowIdCounter);
     }
 
-    //outputting the total on button click
-    totalInputBtn.addEventListener("click", () => {
-      grandTotal.classList.add("activeTotal");
-      grandTotal.innerHTML = "Spending Total: $" + totalVal;
-      localStorage.setItem("spending", totalVal);
-      addDailySpending(totalVal);
-    });
+    saveToLocalStorage().then(updateTableFromLocalStorage());
   }
 };
 
