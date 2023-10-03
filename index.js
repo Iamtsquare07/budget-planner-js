@@ -74,7 +74,9 @@ for (var i = 1; i < table.rows.length; i++) {
 //outputting the total on button click
 totalInputBtn.addEventListener('click', () => { 
     grandTotal.classList.add('activeTotal');
-    grandTotal.innerHTML = 'Spending Total: $' + totalVal;                
+    grandTotal.innerHTML = 'Spending Total: $' + totalVal; 
+    localStorage.setItem('spending', totalVal)
+    addDailySpending(totalVal)               
 })
     
 }
@@ -90,3 +92,54 @@ financeText.addEventListener('keypress', function (e) {
 }); // save the value if the enter key is pressed
 
 financeBtn.addEventListener('click', financeOutput)//Invoke the output
+
+var income = localStorage.getItem('income') || 0;
+var spending = localStorage.getItem('spending') || 0;
+var chart = null;
+var ctx = document.getElementById('budgetChart').getContext('2d');
+
+function updateBudget(trigger) {
+    if(trigger){
+        localStorage.removeItem('income')
+    }
+    income = localStorage.getItem('income') || parseFloat(prompt("How much do you earn last month?"));
+    document.getElementById('total-income').textContent = income;
+    if(income) {
+        localStorage.setItem('income', income);
+        updateChart();
+    }else {
+        updateBudget(true)
+    }
+}
+
+setTimeout(() => {
+    updateBudget()
+}, 1000);
+
+function addDailySpending(amount) {
+    var dailySpending = parseFloat(amount);
+    spending = localStorage.getItem('spending') || dailySpending;
+    updateChart();
+}
+
+function updateChart() {
+    if (chart) {
+    chart.destroy(); // Clear the previous chart instance
+    }
+
+    var remainingBalance = income - spending;
+    var data = {
+    labels: ['Spending', 'Remaining'],
+    datasets: [{
+        data: [income - remainingBalance, remainingBalance],
+        backgroundColor: ['red', 'green'],
+    }]
+    };
+
+    chart = new Chart(ctx, {
+    type: 'pie',
+    data: data,
+    });
+}
+
+document.getElementById('update').addEventListener('click', updateBudget)
