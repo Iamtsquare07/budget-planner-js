@@ -1,4 +1,3 @@
-//Selecting document elements
 const mainBody = document.querySelector("#financeRes"),
   financeForm = document.querySelector("#expenseForm"),
   financeText = document.querySelector("#expenseText"),
@@ -11,17 +10,16 @@ const mainBody = document.querySelector("#financeRes"),
   expenseWarning = document.querySelector("#warning"),
   grandTotal = document.querySelector("#financeTotal");
 
-//Retrieving today's date
 financeDate.valueAsDate = new Date();
 
 function reset() {
-    localStorage.removeItem("income");
-    localStorage.removeItem("rowId");
-    localStorage.removeItem("financeData");
-    localStorage.removeItem("spending");
+  localStorage.removeItem("income");
+  localStorage.removeItem("rowId");
+  localStorage.removeItem("financeData");
+  localStorage.removeItem("spending");
 
-    const url = window.location.href;
-    window.open(url, "_blank")
+  const url = window.location.href;
+  window.open(url, "_blank");
 }
 
 // Function to update the table from local storage
@@ -73,7 +71,7 @@ function updateTableFromLocalStorage() {
     //Bringing back the focus to the input
     financeText.focus();
     expenseWarning.innerHTML = "";
-    document.getElementById("clear").style.display = "block"
+    document.getElementById("clear").style.display = "block";
     financeCell3.id = "itemAmount";
     localStorage.setItem("spending", totalVal);
     addDailySpending(totalVal);
