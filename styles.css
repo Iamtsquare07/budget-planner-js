@@ -1,5 +1,4 @@
 body {
-    padding: 10px;
     background-color: #000014;
     width: 100%;
     height: 100vh;
@@ -21,15 +20,19 @@ h4 {
     font-family: 'Croissant One', cursive;
 }
 
+h1 {
+    font-size: 5vw;
+}
+
 .budget {
     font-family: Arial, sans-serif;
     color: #bfd0ff;
     margin: auto;
-    width: 90%;
+    width: 100%;
     height: auto;
     margin-top: 10px;
     background-color: #00006e;
-    padding: 50px 20px 50px 20px;
+    padding: 10px 5px 10px 5px;
     padding-top: 10px;
     border-radius: 10px;
     box-shadow: 1px 1px 5px 1px #1b37b4;
@@ -47,7 +50,7 @@ h4 {
 
 
 #financeSpan {
-    color: red;
+    color: #017562;
 }
 
 
@@ -72,6 +75,7 @@ select {
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
+    outline: none;
 }
 
 #expenseTable {
@@ -140,7 +144,7 @@ th {
 }
 
 #expenseAmount:focus {
-    border: 2px solid red;
+    border: 2px solid #ff9100;
 }
 
 #warning {
@@ -202,7 +206,9 @@ button {
     cursor: pointer;
 }
 
-.dashboard button, #clear button, #addExpenseBtn {
+.dashboard button,
+#clear button,
+#addExpenseBtn {
     padding: 10px;
     background-color: #3232fa;
     border: 1px solid #3232fa;
@@ -233,6 +239,10 @@ hr {
 @media only screen and (min-width: 1024px) {
     .budget {
         width: 50%;
+    }
+
+    h1 {
+        font-size: 30px;
     }
 
     #budgetChart {
