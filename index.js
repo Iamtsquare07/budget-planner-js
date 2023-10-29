@@ -66,9 +66,8 @@ function updateTableFromLocalStorage() {
     financeText.value = "";
     financeAmount.value = "";
     grandTotal.innerHTML = "";
-    financeMessage.remove();
-
-    //Bringing back the focus to the input
+    financeMessage.remove()
+    
     financeText.focus();
     expenseWarning.innerHTML = "";
     document.getElementById("clear").style.display = "block";
@@ -86,7 +85,7 @@ function updateTableFromLocalStorage() {
         const rowId = event.target.closest("tr").id;
         console.log(rowId);
         rowToDelete.remove();
-        // Find the index of the data entry to delete
+       
         // Find the object in dataArray with the matching rowId
         const objectToDelete = dataArray.find(
           (item) => parseInt(item.rowId) === parseInt(rowId)
@@ -120,7 +119,6 @@ window.onload = function () {
   updateTableFromLocalStorage();
 };
 
-//The output
 const financeOutput = () => {
   if (financeText.value.length === 0) {
     financeText.focus();
@@ -165,7 +163,7 @@ financeAmount.addEventListener("keypress", function (e) {
 
 financeText.addEventListener("keypress", function (e) {
   if (e.key === "Enter") financeOutput();
-}); // save the value if the enter key is pressed
+}); // save the value if the enter key is pressed when the amount field is focused 
 
 financeBtn.addEventListener("click", financeOutput); //Invoke the output
 
