@@ -22,6 +22,7 @@
                     <h3>My Total Income</h3>
                     <div id="total-income"></div>
                     <button id="update">Update Income</button>
+                    <button id="setting">Settings</button>
                 </div>
             </div>
             <hr>
@@ -59,6 +60,23 @@
             <div id="messageDiv">Nothing is added yet!</div>
             <div id="financeTotal"></div>
             <div id="clear"><button onclick="reset()">Reset</button></div>
+        </div>
+    </div>
+    <div class="settings-modal">
+        <div id="settings">
+            <div id="close-setting" onclick="closeSettingModal()">X</div>
+            <h3>Settings</h3>
+            <label for="currency">Currency:</label>
+            <select name="currency" onchange="chooseCurrency()" id="currency">
+                <option value="₦">₦</option>
+                <option value="$">$</option>
+                <option value="£">£</option>
+                <option value="€">€</option>
+                <option value="₹">₹</option>
+                <option value="¥">¥</option>
+                <option value="₵">₵</option>
+            </select>
+            <p id="setting-messages"></p>
         </div>
     </div>
     <script src="./index.js"></script>
