@@ -8,9 +8,33 @@ const mainBody = document.querySelector("#financeRes"),
   financeTable = document.querySelector("#expenseTable"),
   AmountTotal = document.querySelector("#expenseAmountTotal"),
   expenseWarning = document.querySelector("#warning"),
-  grandTotal = document.querySelector("#financeTotal");
+  grandTotal = document.querySelector("#financeTotal"),
+  settingsModal = document.querySelector(".settings-modal"),
+  settingBtn = document.getElementById("setting"),
+  currencySelect = document.getElementById("currency");
 
 financeDate.valueAsDate = new Date();
+let currency = localStorage.getItem("currency") || "₦";
+settingBtn.addEventListener(
+  "click",
+  () => (settingsModal.style.display = "block")
+);
+
+function chooseCurrency() {
+  currency = currencySelect.value;
+  localStorage.setItem("currency", currency);
+  updateTableFromLocalStorage();
+  updateBudget()
+  const message = document.getElementById('setting-messages');
+  message.textContent = "Settings Saved"
+  setTimeout(() => {
+    message.textContent = ""
+  }, 3000);
+}
+
+function closeSettingModal() {
+  settingsModal.style.display = "none";
+}
 
 function reset() {
   localStorage.removeItem("income");
@@ -55,7 +79,7 @@ function updateTableFromLocalStorage() {
       // Populate the table cells with data from local storage
       financeCell.innerHTML = data.name;
       financeCell2.innerHTML = data.date;
-      financeCell3.innerHTML = data.amount;
+      financeCell3.innerHTML = `${currency}${data.amount}`;
       financeCell4.appendChild(delBtn);
 
       // Update totalVal
@@ -66,8 +90,9 @@ function updateTableFromLocalStorage() {
     financeText.value = "";
     financeAmount.value = "";
     grandTotal.innerHTML = "";
-    financeMessage.remove()
-    
+    financeMessage.remove();
+
+    //Bringing back the focus to the input
     financeText.focus();
     expenseWarning.innerHTML = "";
     document.getElementById("clear").style.display = "block";
@@ -75,7 +100,7 @@ function updateTableFromLocalStorage() {
     localStorage.setItem("spending", totalVal);
     addDailySpending(totalVal);
     grandTotal.classList.add("activeTotal");
-    grandTotal.innerHTML = "Spending Total: $" + totalVal;
+    grandTotal.innerHTML = `Spending Total:  ${currency}${totalVal}`;
 
     // Attach a click event handler for delete buttons using event delegation
     financeTable.addEventListener("click", function (event) {
@@ -85,7 +110,7 @@ function updateTableFromLocalStorage() {
         const rowId = event.target.closest("tr").id;
         console.log(rowId);
         rowToDelete.remove();
-       
+        // Find the index of the data entry to delete
         // Find the object in dataArray with the matching rowId
         const objectToDelete = dataArray.find(
           (item) => parseInt(item.rowId) === parseInt(rowId)
@@ -117,8 +142,10 @@ function updateTableFromLocalStorage() {
 // Call the update function when your page loads
 window.onload = function () {
   updateTableFromLocalStorage();
+  currencySelect.value = currency;
 };
 
+//The output
 const financeOutput = () => {
   if (financeText.value.length === 0) {
     financeText.focus();
@@ -163,7 +190,7 @@ financeAmount.addEventListener("keypress", function (e) {
 
 financeText.addEventListener("keypress", function (e) {
   if (e.key === "Enter") financeOutput();
-}); // save the value if the enter key is pressed when the amount field is focused 
+}); // save the value if the enter key is pressed
 
 financeBtn.addEventListener("click", financeOutput); //Invoke the output
 
@@ -179,7 +206,7 @@ function updateBudget(trigger) {
   income =
     localStorage.getItem("income") ||
     parseFloat(prompt("How much do you earn last month?"));
-  document.getElementById("total-income").textContent = income;
+  document.getElementById("total-income").textContent = `${currency}${income}`;
   if (income) {
     localStorage.setItem("income", income);
     updateChart();
