@@ -161,6 +161,7 @@ const financeOutput = () => {
     // Function to save finance data to local storage
     async function saveToLocalStorage() {
       const financeData = localStorage.getItem("financeData");
+      financeAmount.value = parseFloat(financeAmount.value.replace(/,/g, ""));
       const newData = {
         name: financeText.value,
         date: financeDate.value,
@@ -270,13 +271,14 @@ function formatNumberWithAlpha(number) {
 
 // Format numbers to include the appropriate commas
 function formatNumber(number) {
-  return Number(number).toLocaleString();
+  return parseInt(number).toLocaleString();
 }
 
 // Format input numbers with comma separation
 function formatInput(id) {
   const inputElement = document.getElementById(id);
   const inputValue = inputElement.value.replace(/,/g, "");
+
   if (inputValue === "") {
     // If the input is empty, do nothing
     return;
@@ -286,7 +288,6 @@ function formatInput(id) {
   const numberValue = parseInt(inputValue);
 
   if (!isNaN(numberValue)) {
-    // If the input is a valid number, format it and update the input field
     inputElement.value = numberValue.toLocaleString();
   }
 }
