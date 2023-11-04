@@ -253,6 +253,7 @@ function updateChart() {
 
 document.getElementById("update").addEventListener("click", updateBudget);
 
+// Format numbers with an alphabet representation
 function formatNumberWithAlpha(number) {
   number = Number(number);
   // Check if the number is in billions, millions, or thousands range
@@ -267,6 +268,26 @@ function formatNumberWithAlpha(number) {
   }
 }
 
+// Format numbers to include the appropriate commas
 function formatNumber(number) {
   return Number(number).toLocaleString();
+}
+
+// Format input numbers with comma separation
+function formatInput() {
+  const inputElement = document.getElementById("numberInput");
+  const inputValue = inputElement.value;
+
+  if (inputValue === "") {
+    // If the input is empty, do nothing
+    return;
+  }
+
+  // Parse the input value as a number
+  const numberValue = parseFloat(inputValue);
+
+  if (!isNaN(numberValue)) {
+    // If the input is a valid number, format it and update the input field
+    inputElement.value = numberValue.toLocaleString();
+  }
 }
