@@ -24,11 +24,11 @@ function chooseCurrency() {
   currency = currencySelect.value;
   localStorage.setItem("currency", currency);
   updateTableFromLocalStorage();
-  updateBudget()
-  const message = document.getElementById('setting-messages');
-  message.textContent = "Settings Saved"
+  updateBudget();
+  const message = document.getElementById("setting-messages");
+  message.textContent = "Settings Saved";
   setTimeout(() => {
-    message.textContent = ""
+    message.textContent = "";
   }, 3000);
 }
 
@@ -79,7 +79,7 @@ function updateTableFromLocalStorage() {
       // Populate the table cells with data from local storage
       financeCell.innerHTML = data.name;
       financeCell2.innerHTML = data.date;
-      financeCell3.innerHTML = `${currency}${data.amount}`;
+      financeCell3.innerHTML = `${currency}${formatNumber(data.amount)}`;
       financeCell4.appendChild(delBtn);
 
       // Update totalVal
@@ -100,7 +100,9 @@ function updateTableFromLocalStorage() {
     localStorage.setItem("spending", totalVal);
     addDailySpending(totalVal);
     grandTotal.classList.add("activeTotal");
-    grandTotal.innerHTML = `Spending Total:  ${currency}${totalVal}`;
+    grandTotal.innerHTML = `Spending Total:  ${currency}${formatNumberWithAlpha(
+      totalVal
+    )}`;
 
     // Attach a click event handler for delete buttons using event delegation
     financeTable.addEventListener("click", function (event) {
@@ -206,7 +208,9 @@ function updateBudget(trigger) {
   income =
     localStorage.getItem("income") ||
     parseFloat(prompt("How much do you earn last month?"));
-  document.getElementById("total-income").textContent = `${currency}${income}`;
+  document.getElementById(
+    "total-income"
+  ).textContent = `${currency}${formatNumber(income)}`;
   if (income) {
     localStorage.setItem("income", income);
     updateChart();
@@ -248,3 +252,21 @@ function updateChart() {
 }
 
 document.getElementById("update").addEventListener("click", updateBudget);
+
+function formatNumberWithAlpha(number) {
+  number = Number(number);
+  // Check if the number is in billions, millions, or thousands range
+  if (number >= 1e9) {
+    return (number / 1e9).toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,") + "B";
+  } else if (number >= 1e6) {
+    return (number / 1e6).toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,") + "M";
+  } else if (number >= 1e3) {
+    return (number / 1e3).toFixed(1).replace(/\d(?=(\d{3})+\.)/g, "$&,") + "K";
+  } else {
+    return number.toFixed(0).replace(/\d(?=(\d{3})+\.)/g, "$&,");
+  }
+}
+
+function formatNumber(number) {
+  return Number(number).toLocaleString();
+}
