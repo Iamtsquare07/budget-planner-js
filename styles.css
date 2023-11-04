@@ -140,11 +140,11 @@ th {
 }
 
 #expenseText:focus {
-    border: 2px solid rgb(255, 217, 0);
+    border: 1px solid rgb(255, 217, 0);
 }
 
 #expenseAmount:focus {
-    border: 2px solid #ff9100;
+    border: 1px solid #ff9100;
 }
 
 #warning {
