@@ -20,7 +20,7 @@ settingBtn.addEventListener(
   () => (settingsModal.style.display = "block")
 );
 
-function chooseCurrency() {
+window.chooseCurrency = function() {
   currency = currencySelect.value;
   localStorage.setItem("currency", currency);
   updateTableFromLocalStorage();
@@ -32,11 +32,11 @@ function chooseCurrency() {
   }, 3000);
 }
 
-function closeSettingModal() {
+window.closeSettingModal = function() {
   settingsModal.style.display = "none";
 }
 
-function reset() {
+window.resetData = function() {
   localStorage.removeItem("income");
   localStorage.removeItem("rowId");
   localStorage.removeItem("financeData");
@@ -53,7 +53,7 @@ function updateTableFromLocalStorage() {
   if (!dataArray) {
     return;
   }
-  
+
   if (dataArray.length > 0) {
     const rowCount = financeTable.rows.length;
 
@@ -279,7 +279,7 @@ function formatNumber(number) {
 }
 
 // Format input numbers with comma separation
-function formatInput(id) {
+window.formatInput = function(id) {
   const inputElement = document.getElementById(id);
   const inputValue = inputElement.value.replace(/,/g, "");
 
