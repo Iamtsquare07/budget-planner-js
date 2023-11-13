@@ -50,6 +50,10 @@ function reset() {
 function updateTableFromLocalStorage() {
   const financeData = localStorage.getItem("financeData");
   const dataArray = JSON.parse(financeData);
+  if (!dataArray) {
+    return;
+  }
+  
   if (dataArray.length > 0) {
     const rowCount = financeTable.rows.length;
 
