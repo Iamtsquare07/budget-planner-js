@@ -40,6 +40,8 @@ let userToggled = JSON.parse(localStorage.getItem("checked")) || null;
 const autoSaveField = document.getElementById("auto-save");
 let messageFired = JSON.parse(localStorage.getItem("messageFired")) || null;
 
+console.log(financeData)
+
 function autoSaveData(autoSave) {
   if (autoSave) {
     autoSaveField.textContent = "ON";
@@ -147,3 +149,35 @@ function getEmailFromUser() {
 document.getElementById("save-data").addEventListener("click", saveFinanceData);
 
 export { sendData, getEmailFromUser };
+
+
+async function retriveDataFromDatabase(email) {
+  let data;
+  const id = email.replace(/[.]/g, "");
+    const dbref = ref(db)
+    if (!isValidEmail(email)) {
+      email = getEmailFromUser()
+    }
+
+      get(child(dbref, "financeBuddy/" + id))
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              data = snapshot.val();
+              let finance = data.financeData;
+              let income = data.income;
+              let rowId = data.rowId;
+              let spending = data.spending;
+              let currency = data.currency;
+
+              console.log(data);
+            } else {
+              console.log("Data not found");
+            }
+            
+          })
+          .catch((err) => {
+              console.log(err)
+          })
+}
+
+retriveDataFromDatabase(localStorage.getItem("email"))
