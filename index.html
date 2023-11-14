@@ -11,22 +11,25 @@
 
 <body>
     <h1>Finance <span id="financeSpan">Buddy</span></h1>
-    <div class="budget">
-        <div>
-            <h2>Plan Your Budget</h2>
-            <div class="dashboard">
-                <div>
-                    <canvas id="budgetChart"></canvas>
-                </div>
-                <div class="income">
-                    <h3>My Total Income</h3>
-                    <div id="total-income"></div>
-                    <button id="update">Update Income</button>
-                    <button id="setting">Settings</button>
+    <div class="root">
+        <div class="budget">
+            <div>
+                <h2>Plan Your Budget</h2>
+                <div class="dashboard">
+                    <div>
+                        <canvas id="budgetChart"></canvas>
+                    </div>
+                    <div class="income">
+                        <h3>My Total Income</h3>
+                        <div id="total-income"></div>
+                        <button id="update">Update Income</button>
+                        <button id="setting">Settings</button>
+                    </div>
                 </div>
             </div>
-            <hr>
             <br>
+        </div>
+        <div class="expense-container">
             <div id='expenseDiv1'>
                 <h3>Add expenses for the month</h3>
                 <form id="expenseForm">
@@ -44,24 +47,23 @@
                     </div>
                 </form>
             </div>
-        </div>
-        <br>
-        <div id="financeRes">
-            <table id="expenseTable">
-                <tbody>
-                    <tr>
-                        <th>Name</th>
-                        <th>Date</th>
-                        <th>Amount</th>
-                        <th></th>
-                    </tr>
-                </tbody>
-            </table>
-            <div id="messageDiv">Nothing is added yet!</div>
-            <div id="financeTotal"></div>
-            <div id="clear">
-                <button onclick="resetData()">Reset</button>
-                <button id="save-data">Save</button>
+            <div id="financeRes">
+                <table id="expenseTable">
+                    <tbody>
+                        <tr>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th></th>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="messageDiv">Nothing is added yet!</div>
+                <div id="financeTotal"></div>
+                <div id="clear">
+                    <button onclick="resetData()">Reset</button>
+                    <button id="save-data">Save</button>
+                </div>
             </div>
         </div>
     </div>
