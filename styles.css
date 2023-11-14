@@ -24,7 +24,12 @@ h1 {
     font-size: 5vw;
 }
 
-.budget {
+.root {
+    display: flex;
+    flex-direction: column;
+}
+
+.budget, .expense-container {
     font-family: Arial, sans-serif;
     color: #bfd0ff;
     margin: auto;
@@ -36,7 +41,7 @@ h1 {
     padding-top: 10px;
     border-radius: 10px;
     box-shadow: 1px 1px 5px 1px #1b37b4;
-
+    margin-bottom: 20px;
 }
 
 #budgetChart {
@@ -354,8 +359,14 @@ input:checked+.slider:before {
 /* End Styles for sliding toggle switch */
 
 @media only screen and (min-width: 1024px) {
-    .budget {
-        width: 50%;
+    .root {
+        flex-direction: row-reverse;
+        padding: 50px;
+        padding-top: 5px;
+    }
+
+    .budget, .expense-container {
+        width:47%;
     }
 
     h1 {
@@ -374,5 +385,14 @@ input:checked+.slider:before {
     #settings {
         width: 50%;
         margin-top: 100px;
+    }
+
+    #financeRes, .expenseDiv1 {
+        border-radius:10px;
+        border: 1px solid #8197f8
+    }
+
+    #financeRes {
+        padding: 10px;
     }
 }
