@@ -1,4 +1,4 @@
-import { sendData, getEmailFromUser } from "./save.js";
+import { sendData, getEmailFromUser, retriveDataFromDatabase } from "./save.js";
 
 const mainBody = document.querySelector("#financeRes"),
   financeForm = document.querySelector("#expenseForm"),
@@ -15,8 +15,28 @@ const mainBody = document.querySelector("#financeRes"),
   settingBtn = document.getElementById("setting"),
   currencySelect = document.getElementById("currency"),
   autoSave = JSON.parse(localStorage.getItem("autoSave"));
+let loggedIn = false;
+
+// Call the update function when your page loads
+window.onload = function () {
+  const userEmail = localStorage.getItem("email") || getEmailFromUser();
+  localStorage.setItem("email", userEmail);
+  if (userEmail) {
+    retriveDataFromDatabase(userEmail).then(updateTableFromLocalStorage());
+    currencySelect.value = currency;
+  } else {
+    updateTableFromLocalStorage();
+  }
+};
+
+if (localStorage.getItem("email")) {
+  loggedIn = true;
+} else {
+  loggedIn = false;
+}
 
 financeDate.valueAsDate = new Date();
+
 let currency = localStorage.getItem("currency") || "₦";
 settingBtn.addEventListener(
   "click",
@@ -33,8 +53,8 @@ function processAutoSave() {
 window.chooseCurrency = function () {
   currency = currencySelect.value;
   localStorage.setItem("currency", currency);
-  processAutoSave();
   updateTableFromLocalStorage();
+  processAutoSave();
   updateBudget();
   const message = document.getElementById("setting-messages");
   message.textContent = "Settings Saved";
@@ -159,12 +179,6 @@ function updateTableFromLocalStorage() {
   }
 }
 
-// Call the update function when your page loads
-window.onload = function () {
-  updateTableFromLocalStorage();
-  currencySelect.value = currency;
-};
-
 //The output
 const financeOutput = () => {
   if (financeText.value.length === 0) {
@@ -224,9 +238,11 @@ function updateBudget(trigger) {
   if (trigger) {
     localStorage.removeItem("income");
   }
-  income =
+  if (!loggedIn) {
+    income =
     localStorage.getItem("income") ||
     parseFloat(prompt("How much do you earn last month?"));
+  }
   document.getElementById(
     "total-income"
   ).textContent = `${currency}${formatNumber(income)}`;
