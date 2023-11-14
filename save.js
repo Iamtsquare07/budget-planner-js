@@ -148,28 +148,24 @@ function getEmailFromUser() {
 
 document.getElementById("save-data").addEventListener("click", saveFinanceData);
 
-export { sendData, getEmailFromUser };
-
-
 async function retriveDataFromDatabase(email) {
+  if (!isValidEmail(email)) {
+    email = getEmailFromUser()
+  }
+
   let data;
   const id = email.replace(/[.]/g, "");
     const dbref = ref(db)
-    if (!isValidEmail(email)) {
-      email = getEmailFromUser()
-    }
 
       get(child(dbref, "financeBuddy/" + id))
           .then((snapshot) => {
             if (snapshot.exists()) {
               data = snapshot.val();
-              let finance = data.financeData;
-              let income = data.income;
-              let rowId = data.rowId;
-              let spending = data.spending;
-              let currency = data.currency;
-
-              console.log(data);
+              localStorage.setItem("financeData", JSON.stringify(data.financeData));
+              localStorage.setItem("income", data.income);
+              localStorage.setItem("rowId", data.rowId);
+              localStorage.setItem("spending", data.spending);
+              localStorage.setItem("currency", data.currency);
             } else {
               console.log("Data not found");
             }
@@ -180,4 +176,4 @@ async function retriveDataFromDatabase(email) {
           })
 }
 
-retriveDataFromDatabase(localStorage.getItem("email"))
+export { sendData, getEmailFromUser, retriveDataFromDatabase };
