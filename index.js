@@ -1,3 +1,5 @@
+import { sendData, getEmailFromUser } from "./save.js";
+
 const mainBody = document.querySelector("#financeRes"),
   financeForm = document.querySelector("#expenseForm"),
   financeText = document.querySelector("#expenseText"),
@@ -11,7 +13,8 @@ const mainBody = document.querySelector("#financeRes"),
   grandTotal = document.querySelector("#financeTotal"),
   settingsModal = document.querySelector(".settings-modal"),
   settingBtn = document.getElementById("setting"),
-  currencySelect = document.getElementById("currency");
+  currencySelect = document.getElementById("currency"),
+  autoSave = JSON.parse(localStorage.getItem("autoSave"));
 
 financeDate.valueAsDate = new Date();
 let currency = localStorage.getItem("currency") || "₦";
@@ -20,9 +23,17 @@ settingBtn.addEventListener(
   () => (settingsModal.style.display = "block")
 );
 
-window.chooseCurrency = function() {
+function processAutoSave() {
+  let email = localStorage.getItem("email") || getEmailFromUser();
+  if (autoSave) {
+    sendData(email);
+  }
+}
+
+window.chooseCurrency = function () {
   currency = currencySelect.value;
   localStorage.setItem("currency", currency);
+  processAutoSave();
   updateTableFromLocalStorage();
   updateBudget();
   const message = document.getElementById("setting-messages");
@@ -30,13 +41,13 @@ window.chooseCurrency = function() {
   setTimeout(() => {
     message.textContent = "";
   }, 3000);
-}
+};
 
-window.closeSettingModal = function() {
+window.closeSettingModal = function () {
   settingsModal.style.display = "none";
-}
+};
 
-window.resetData = function() {
+window.resetData = function () {
   localStorage.removeItem("income");
   localStorage.removeItem("rowId");
   localStorage.removeItem("financeData");
@@ -44,7 +55,7 @@ window.resetData = function() {
 
   const url = window.location.href;
   window.open(url, "_blank");
-}
+};
 
 // Function to update the table from local storage
 function updateTableFromLocalStorage() {
@@ -102,6 +113,7 @@ function updateTableFromLocalStorage() {
     document.getElementById("clear").style.display = "block";
     financeCell3.id = "itemAmount";
     localStorage.setItem("spending", totalVal);
+    processAutoSave();
     addDailySpending(totalVal);
     grandTotal.classList.add("activeTotal");
     grandTotal.innerHTML = `Spending Total:  ${currency}${formatNumberWithAlpha(
@@ -129,6 +141,7 @@ function updateTableFromLocalStorage() {
 
           // Update localStorage and recalculate totalVal
           localStorage.setItem("financeData", JSON.stringify(dataArray));
+          processAutoSave();
           totalVal = dataArray.reduce(
             (total, item) => total + parseInt(item.amount),
             0
@@ -141,6 +154,7 @@ function updateTableFromLocalStorage() {
     grandTotal.innerHTML = "";
     totalVal = 0;
     localStorage.setItem("spending", totalVal);
+    processAutoSave();
     addDailySpending(totalVal);
   }
 }
@@ -181,10 +195,10 @@ const financeOutput = () => {
 
       // Store the updated data in local storage
       localStorage.setItem("financeData", JSON.stringify(dataArray));
-
       // Increment the row ID counter for the next row
       rowIdCounter++;
       localStorage.setItem("rowId", rowIdCounter);
+      processAutoSave();
     }
 
     saveToLocalStorage().then(updateTableFromLocalStorage());
@@ -218,6 +232,7 @@ function updateBudget(trigger) {
   ).textContent = `${currency}${formatNumber(income)}`;
   if (income) {
     localStorage.setItem("income", income);
+    processAutoSave();
     updateChart();
   } else {
     updateBudget(true);
@@ -279,7 +294,7 @@ function formatNumber(number) {
 }
 
 // Format input numbers with comma separation
-window.formatInput = function(id) {
+window.formatInput = function (id) {
   const inputElement = document.getElementById(id);
   const inputValue = inputElement.value.replace(/,/g, "");
 
@@ -294,4 +309,4 @@ window.formatInput = function(id) {
   if (!isNaN(numberValue)) {
     inputElement.value = numberValue.toLocaleString();
   }
-}
+};
