@@ -16,7 +16,7 @@ h3,
 h4 {
     text-align: center;
     margin-bottom: 20px;
-    color: rgba(255, 217, 0, 0.61);
+    color: rgba(0, 255, 85, 0.61);
     font-family: 'Croissant One', cursive;
 }
 
@@ -25,8 +25,10 @@ h1 {
 }
 
 .root {
+    width: 90%;
     display: flex;
     flex-direction: column;
+    margin: auto;
 }
 
 .budget, .expense-container {
@@ -36,11 +38,11 @@ h1 {
     width: 100%;
     height: auto;
     margin-top: 10px;
-    background-color: #00006e;
+    background:none;
     padding: 10px 5px 10px 5px;
     padding-top: 10px;
     border-radius: 10px;
-    box-shadow: 1px 1px 5px 1px #1b37b4;
+    box-shadow: .5px 1px 3px 1px #1b37b4;
     margin-bottom: 20px;
 }
 
@@ -68,6 +70,7 @@ h1 {
     display: flex;
     justify-content: center;
     padding-top: 15px;
+    margin-bottom: 25px;
 }
 
 
@@ -297,6 +300,10 @@ hr {
     margin-left: 5px;
 }
 
+#warning {
+    margin: 3px;
+}
+
 /* Styles for sliding toggle switch */
 .switch {
     position: relative;
@@ -361,12 +368,16 @@ input:checked+.slider:before {
 @media only screen and (min-width: 1024px) {
     .root {
         flex-direction: row-reverse;
-        padding: 50px;
+        padding: 10px;
         padding-top: 5px;
+        width: 80%;
+        border-radius:10px;
+        box-shadow: 1px 1px 5px 1px #1b37b4;
     }
 
     .budget, .expense-container {
         width:47%;
+        background:none;
     }
 
     h1 {
@@ -387,12 +398,9 @@ input:checked+.slider:before {
         margin-top: 100px;
     }
 
-    #financeRes, .expenseDiv1 {
-        border-radius:10px;
-        border: 1px solid #8197f8
-    }
-
     #financeRes {
+        border-radius:10px;
         padding: 10px;
+        box-shadow: 1px 1px 3px 1px #1b37b4;
     }
 }
