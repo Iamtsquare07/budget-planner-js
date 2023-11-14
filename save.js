@@ -31,13 +31,14 @@ const db = getDatabase(app);
 
 const currency = localStorage.getItem("currency");
 const spending = localStorage.getItem("spending");
-const financeData = localStorage.getItem("financeData");
+const financeData = JSON.parse(localStorage.getItem("financeData"));
 const rowId = localStorage.getItem("rowId");
 const income = localStorage.getItem("income");
 let autoSave = JSON.parse(localStorage.getItem("autoSave")) || false;
 const autoSaveCheckbox = document.getElementById("auto-save-to-db");
 let userToggled = JSON.parse(localStorage.getItem("checked")) || null;
 const autoSaveField = document.getElementById("auto-save");
+let messageFired = JSON.parse(localStorage.getItem("messageFired")) || null;
 
 function autoSaveData(autoSave) {
   if (autoSave) {
@@ -60,7 +61,12 @@ async function setData(email) {
     })
       .then(() => {
         console.log("Data saved successfully");
-        alert(`Your budget was saved to the database successfully`);
+        if (!messageFired) {
+          alert(`Your budget was saved to the database successfully`);
+          JSON.stringify(
+            localStorage.setItem("messageFired", (messageFired = true))
+          );
+        }
       })
       .catch((err) => {
         console.error(err);
@@ -86,9 +92,7 @@ async function sendData(email) {
 }
 
 autoSaveCheckbox.addEventListener("change", () => {
-  let email =
-    localStorage.getItem("email") ||
-    prompt("Enter your email to save your budget to database");
+  let email = localStorage.getItem("email") || getEmailFromUser();
   localStorage.setItem("email", email);
   if (autoSaveCheckbox.checked) {
     sendData(email);
@@ -117,11 +121,29 @@ function isValidEmail(email) {
 }
 
 function saveFinanceData() {
-  let email =
-    localStorage.getItem("email") ||
-    prompt("Enter your email to save your budget to database");
-  localStorage.setItem("email", email);
-  sendData(email);
+  let email = localStorage.getItem("email") || getEmailFromUser();
+
+  if (email) {
+    sendData(email);
+  }
 }
 
-document.getElementById("save-data").addEventListener("click", saveFinanceData)
+function getEmailFromUser() {
+  let userEmail;
+  do {
+    // Prompt the user for an email
+    userEmail = prompt("Enter your email to save your budget to database:");
+
+    // Check if the email is valid
+    if (!isValidEmail(userEmail)) {
+      alert("Invalid email. Please enter a valid email address.");
+    }
+  } while (!isValidEmail(userEmail));
+
+  localStorage.setItem("email", userEmail);
+  return userEmail;
+}
+
+document.getElementById("save-data").addEventListener("click", saveFinanceData);
+
+export { sendData, getEmailFromUser };
