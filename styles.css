@@ -16,7 +16,7 @@ h3,
 h4 {
     text-align: center;
     margin-bottom: 20px;
-    color: rgba(0, 255, 85, 0.61);
+    color: rgba(0, 255, 85, 0.466);
     font-family: 'Croissant One', cursive;
 }
 
@@ -31,14 +31,15 @@ h1 {
     margin: auto;
 }
 
-.budget, .expense-container {
+.budget,
+.expense-container {
     font-family: Arial, sans-serif;
     color: #bfd0ff;
     margin: auto;
     width: 100%;
     height: auto;
     margin-top: 10px;
-    background:none;
+    background: none;
     padding: 10px 5px 10px 5px;
     padding-top: 10px;
     border-radius: 10px;
@@ -214,7 +215,7 @@ button {
     cursor: pointer;
 }
 
-.dashboard button,
+button,
 #clear button,
 #addExpenseBtn {
     padding: 10px;
@@ -259,7 +260,7 @@ hr {
     width: 90%;
     background-color: #000014;
     border-radius: 10px;
-    border: 1px solid #0f1047;
+    box-shadow: .5px 1px 3px 1px #0e2383;
     height: 80vh;
     margin: auto;
     margin-top: 50px;
@@ -291,7 +292,7 @@ hr {
 
 .auto-fields {
     display: flex;
-    align-items:center;
+    align-items: center;
     justify-content: center;
 }
 
@@ -302,6 +303,18 @@ hr {
 
 #warning {
     margin: 3px;
+}
+
+.details {
+    display: flex;
+    align-items:center;
+    justify-content: center;
+}
+
+#email {
+    display: none;
+    width: fit-content;
+    max-width: 250px;
 }
 
 /* Styles for sliding toggle switch */
@@ -371,13 +384,14 @@ input:checked+.slider:before {
         padding: 10px;
         padding-top: 5px;
         width: 80%;
-        border-radius:10px;
+        border-radius: 10px;
         box-shadow: 1px 1px 5px 1px #1b37b4;
     }
 
-    .budget, .expense-container {
-        width:47%;
-        background:none;
+    .budget,
+    .expense-container {
+        width: 47%;
+        background: none;
     }
 
     h1 {
@@ -399,7 +413,7 @@ input:checked+.slider:before {
     }
 
     #financeRes {
-        border-radius:10px;
+        border-radius: 10px;
         padding: 10px;
         box-shadow: 1px 1px 3px 1px #1b37b4;
     }
