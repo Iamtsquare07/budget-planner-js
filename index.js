@@ -7,13 +7,14 @@ const
   financeBtn = document.querySelector("#addExpenseBtn"),
   financeMessage = document.querySelector("#messageDiv"),
   financeTable = document.querySelector("#expenseTable"),
-  AmountTotal = document.querySelector("#expenseAmountTotal"),
   expenseWarning = document.querySelector("#warning"),
   grandTotal = document.querySelector("#financeTotal"),
   settingsModal = document.querySelector(".settings-modal"),
   settingBtn = document.getElementById("setting"),
-  currencySelect = document.getElementById("currency"),
-  autoSave = JSON.parse(localStorage.getItem("autoSave"));
+  currencySelect = document.getElementById("currency");
+  
+let autoSave = localStorage.getItem("autoSave");
+autoSave = JSON.parse(autoSave)
 let loggedIn = false;
 
 // Call the update function when your page loads
