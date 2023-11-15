@@ -40,7 +40,7 @@ let userToggled = JSON.parse(localStorage.getItem("checked")) || null;
 const autoSaveField = document.getElementById("auto-save");
 let messageFired = JSON.parse(localStorage.getItem("messageFired")) || null;
 
-console.log(financeData)
+console.log(financeData);
 
 function autoSaveData(autoSave) {
   if (autoSave) {
@@ -150,30 +150,29 @@ document.getElementById("save-data").addEventListener("click", saveFinanceData);
 
 async function retriveDataFromDatabase(email) {
   if (!isValidEmail(email)) {
-    email = getEmailFromUser()
+    email = getEmailFromUser();
   }
 
   let data;
   const id = email.replace(/[.]/g, "");
-    const dbref = ref(db)
+  const dbref = ref(db);
 
-      get(child(dbref, "financeBuddy/" + id))
-          .then((snapshot) => {
-            if (snapshot.exists()) {
-              data = snapshot.val();
-              localStorage.setItem("financeData", JSON.stringify(data.financeData));
-              localStorage.setItem("income", data.income);
-              localStorage.setItem("rowId", data.rowId);
-              localStorage.setItem("spending", data.spending);
-              localStorage.setItem("currency", data.currency);
-            } else {
-              console.log("Data not found");
-            }
-            
-          })
-          .catch((err) => {
-              console.log(err)
-          })
+  get(child(dbref, "financeBuddy/" + id))
+    .then((snapshot) => {
+      if (snapshot.exists()) {
+        data = snapshot.val();
+        localStorage.setItem("financeData", JSON.stringify(data.financeData));
+        localStorage.setItem("income", data.income);
+        localStorage.setItem("rowId", data.rowId);
+        localStorage.setItem("spending", data.spending);
+        localStorage.setItem("currency", data.currency);
+      } else {
+        console.log("Data not found");
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 }
 
-export { sendData, getEmailFromUser, retriveDataFromDatabase };
+export { sendData, getEmailFromUser, retriveDataFromDatabase, isValidEmail };
