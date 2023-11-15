@@ -29,26 +29,21 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-const currency = localStorage.getItem("currency");
-const spending = localStorage.getItem("spending");
-const financeData = JSON.parse(localStorage.getItem("financeData"));
-const rowId = localStorage.getItem("rowId");
-const income = localStorage.getItem("income");
-let autoSave = JSON.parse(localStorage.getItem("autoSave")) || false;
+const currency = localStorage.getItem("currency") || null;
+const spending = localStorage.getItem("spending") || null;
+let financeData = localStorage.getItem("financeData") || {};
+const rowId = localStorage.getItem("rowId") || null;
+const income = localStorage.getItem("income") || null;
+let autoSave = localStorage.getItem("autoSave") || false;
+autoSave = JSON.parse(autoSave)
 const autoSaveCheckbox = document.getElementById("auto-save-to-db");
-let userToggled = JSON.parse(localStorage.getItem("checked")) || null;
+let userToggled = localStorage.getItem("checked") || false;
+userToggled = JSON.parse(userToggled)
 const autoSaveField = document.getElementById("auto-save");
 let messageFired = JSON.parse(localStorage.getItem("messageFired")) || null;
 
 console.log(financeData);
 
-function autoSaveData(autoSave) {
-  if (autoSave) {
-    autoSaveField.textContent = "ON";
-  } else autoSaveField.textContent = "OFF";
-}
-
-autoSaveData();
 
 async function setData(email) {
   const id = email.replace(/[.]/g, "");
@@ -58,7 +53,7 @@ async function setData(email) {
       income: income,
       spending: spending,
       currency: currency,
-      financeData: financeData,
+      financeData: JSON.parse(financeData),
       rowId: rowId,
     })
       .then(() => {
