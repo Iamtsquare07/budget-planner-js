@@ -1,7 +1,6 @@
-import { sendData, getEmailFromUser, retriveDataFromDatabase } from "./save.js";
+import { sendData, getEmailFromUser, retriveDataFromDatabase, isValidEmail } from "./save.js";
 
-const mainBody = document.querySelector("#financeRes"),
-  financeForm = document.querySelector("#expenseForm"),
+const
   financeText = document.querySelector("#expenseText"),
   financeDate = document.querySelector("#expenseDate"),
   financeAmount = document.querySelector("#expenseAmount"),
@@ -23,7 +22,7 @@ window.onload = function () {
   localStorage.setItem("email", userEmail);
   if (userEmail) {
     retriveDataFromDatabase(userEmail).then(function () {
-      updateTableFromLocalStorage()
+      updateTableFromLocalStorage();
     });
     currencySelect.value = currency;
   } else {
@@ -242,8 +241,8 @@ function updateBudget(trigger) {
   }
   if (!loggedIn) {
     income =
-    localStorage.getItem("income") ||
-    parseFloat(prompt("How much do you earn last month?"));
+      localStorage.getItem("income") ||
+      parseFloat(prompt("How much do you earn last month?"));
   }
   document.getElementById(
     "total-income"
@@ -328,3 +327,29 @@ window.formatInput = function (id) {
     inputElement.value = numberValue.toLocaleString();
   }
 };
+
+const changeEmail = document.getElementById("change-email");
+let changeDetailsIsClicked = false;
+changeEmail.addEventListener("click", () => {
+  const emailField = document.getElementById("email");
+  const email = localStorage.getItem("email");
+  
+
+  if (changeDetailsIsClicked) {
+    if (emailField.value !== email) {
+      localStorage.setItem("email", emailField.value);
+      alert("Your email has been updated")
+    }else {
+      alert("This is your current email.")
+      return;
+    }
+    emailField.style.display = "none";
+    changeEmail.textContent = "Edit Details";
+    changeDetailsIsClicked = false;
+  }else {
+    emailField.style.display = "block";
+    emailField.value = email;
+    changeEmail.textContent = "Save Details";
+    changeDetailsIsClicked = true;
+  }
+})
