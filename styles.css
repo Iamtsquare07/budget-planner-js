@@ -392,6 +392,7 @@ input:checked+.slider:before {
     .expense-container {
         width: 47%;
         background: none;
+        margin-bottom: 5px;
     }
 
     h1 {
