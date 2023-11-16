@@ -26,9 +26,7 @@ window.onload = function () {
   const userEmail = localStorage.getItem("email") || getEmailFromUser();
   localStorage.setItem("email", userEmail);
   if (userEmail) {
-    retriveDataFromDatabase(userEmail).then(function () {
-      updateTableFromLocalStorage();
-    });
+    retriveDataFromDatabase(userEmail)
     currencySelect.value = currency;
   } else {
     updateTableFromLocalStorage();
@@ -357,4 +355,4 @@ function editDetails() {
   }
 }
 
-export { updateBudget }
+export { updateBudget, updateTableFromLocalStorage }
