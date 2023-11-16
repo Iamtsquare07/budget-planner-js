@@ -1,9 +1,4 @@
-import {
-  sendData,
-  getEmailFromUser,
-  retriveDataFromDatabase,
-  isValidEmail,
-} from "./save.js";
+import { sendData, getEmailFromUser, retriveDataFromDatabase } from "./save.js";
 
 const financeText = document.querySelector("#expenseText"),
   financeDate = document.querySelector("#expenseDate"),
@@ -26,7 +21,7 @@ window.onload = function () {
   const userEmail = localStorage.getItem("email") || getEmailFromUser();
   localStorage.setItem("email", userEmail);
   if (userEmail) {
-    retriveDataFromDatabase(userEmail)
+    retriveDataFromDatabase(userEmail);
     currencySelect.value = currency;
   } else {
     updateTableFromLocalStorage();
@@ -241,9 +236,9 @@ function updateBudget(trigger) {
   if (trigger) {
     localStorage.removeItem("income");
   }
-    income =
-      localStorage.getItem("income") ||
-      parseFloat(prompt("How much do you earn last month?"));
+  income =
+    localStorage.getItem("income") ||
+    parseFloat(prompt("How much do you earn last month?"));
   document.getElementById(
     "total-income"
   ).textContent = `${currency}${formatNumber(income)}`;
@@ -355,4 +350,4 @@ function editDetails() {
   }
 }
 
-export { updateBudget, updateTableFromLocalStorage }
+export { updateBudget, updateTableFromLocalStorage };
