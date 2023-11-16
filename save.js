@@ -1,4 +1,4 @@
-import { updateBudget } from "./index.js";
+import { updateBudget, updateTableFromLocalStorage } from "./index.js";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
 import {
@@ -127,7 +127,7 @@ function getEmailFromUser() {
   let userEmail;
   do {
     // Prompt the user for an email
-    userEmail = prompt("Enter your email to save your budget to database:");
+    userEmail = prompt("Enter email to retrieve your budget from the cloud or save new budget:");
 
     // Check if the email is valid
     if (!isValidEmail(userEmail)) {
@@ -159,10 +159,16 @@ async function retriveDataFromDatabase(email) {
         localStorage.setItem("rowId", data.rowId);
         localStorage.setItem("spending", data.spending);
         localStorage.setItem("currency", data.currency);
+
+        setTimeout(() => {
+          updateBudget();
+          updateTableFromLocalStorage()
+        }, 2000);
       } else {
         console.log("Data not found");
         setTimeout(() => {
           updateBudget();
+          updateTableFromLocalStorage()
         }, 1000);
       }
     })
