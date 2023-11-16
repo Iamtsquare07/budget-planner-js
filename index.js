@@ -1,7 +1,11 @@
-import { sendData, getEmailFromUser, retriveDataFromDatabase, isValidEmail } from "./save.js";
+import {
+  sendData,
+  getEmailFromUser,
+  retriveDataFromDatabase,
+  isValidEmail,
+} from "./save.js";
 
-const
-  financeText = document.querySelector("#expenseText"),
+const financeText = document.querySelector("#expenseText"),
   financeDate = document.querySelector("#expenseDate"),
   financeAmount = document.querySelector("#expenseAmount"),
   financeBtn = document.querySelector("#addExpenseBtn"),
@@ -12,9 +16,9 @@ const
   settingsModal = document.querySelector(".settings-modal"),
   settingBtn = document.getElementById("setting"),
   currencySelect = document.getElementById("currency");
-  
+let currency = localStorage.getItem("currency") || "₦";
 let autoSave = localStorage.getItem("autoSave");
-autoSave = JSON.parse(autoSave)
+autoSave = JSON.parse(autoSave);
 let loggedIn = false;
 
 // Call the update function when your page loads
@@ -39,7 +43,6 @@ if (localStorage.getItem("email")) {
 
 financeDate.valueAsDate = new Date();
 
-let currency = localStorage.getItem("currency") || "₦";
 settingBtn.addEventListener(
   "click",
   () => (settingsModal.style.display = "block")
@@ -55,8 +58,8 @@ function processAutoSave() {
 window.chooseCurrency = function () {
   currency = currencySelect.value;
   localStorage.setItem("currency", currency);
-  updateTableFromLocalStorage();
   processAutoSave();
+  updateTableFromLocalStorage();
   updateBudget();
   const message = document.getElementById("setting-messages");
   message.textContent = "Settings Saved";
@@ -240,11 +243,9 @@ function updateBudget(trigger) {
   if (trigger) {
     localStorage.removeItem("income");
   }
-  if (!loggedIn) {
     income =
       localStorage.getItem("income") ||
       parseFloat(prompt("How much do you earn last month?"));
-  }
   document.getElementById(
     "total-income"
   ).textContent = `${currency}${formatNumber(income)}`;
@@ -256,10 +257,6 @@ function updateBudget(trigger) {
     updateBudget(true);
   }
 }
-
-setTimeout(() => {
-  updateBudget();
-}, 1000);
 
 function addDailySpending(amount) {
   var dailySpending = parseFloat(amount);
@@ -330,27 +327,34 @@ window.formatInput = function (id) {
 };
 
 const changeEmail = document.getElementById("change-email");
+const emailField = document.getElementById("email");
 let changeDetailsIsClicked = false;
-changeEmail.addEventListener("click", () => {
-  const emailField = document.getElementById("email");
-  const email = localStorage.getItem("email");
-  
+changeEmail.addEventListener("click", editDetails);
+emailField.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") {
+    editDetails();
+  }
+});
 
+function editDetails() {
+  const email = localStorage.getItem("email");
   if (changeDetailsIsClicked) {
     if (emailField.value !== email) {
       localStorage.setItem("email", emailField.value);
-      alert("Your email has been updated")
-    }else {
-      alert("This is your current email.")
+      alert("Your email has been updated");
+    } else {
+      alert("This is your current email.");
       return;
     }
     emailField.style.display = "none";
     changeEmail.textContent = "Edit Details";
     changeDetailsIsClicked = false;
-  }else {
+  } else {
     emailField.style.display = "block";
     emailField.value = email;
     changeEmail.textContent = "Save Details";
     changeDetailsIsClicked = true;
   }
-})
+}
+
+export { updateBudget }
