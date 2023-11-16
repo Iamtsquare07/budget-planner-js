@@ -1,3 +1,4 @@
+import { updateBudget } from "./index.js";
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.6.0/firebase-app.js";
 import {
@@ -28,25 +29,21 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
-
-const currency = localStorage.getItem("currency") || null;
-const spending = localStorage.getItem("spending") || null;
-let financeData = localStorage.getItem("financeData") || {};
-const rowId = localStorage.getItem("rowId") || null;
-const income = localStorage.getItem("income") || null;
 let autoSave = localStorage.getItem("autoSave") || false;
-autoSave = JSON.parse(autoSave)
+autoSave = JSON.parse(autoSave);
 const autoSaveCheckbox = document.getElementById("auto-save-to-db");
 let userToggled = localStorage.getItem("checked") || false;
-userToggled = JSON.parse(userToggled)
+userToggled = JSON.parse(userToggled);
 const autoSaveField = document.getElementById("auto-save");
 let messageFired = JSON.parse(localStorage.getItem("messageFired")) || null;
 
-console.log(financeData);
-
-
 async function setData(email) {
   const id = email.replace(/[.]/g, "");
+  const currency = localStorage.getItem("currency") || null;
+  const spending = localStorage.getItem("spending") || null;
+  let financeData = localStorage.getItem("financeData") || {};
+  const rowId = localStorage.getItem("rowId") || null;
+  const income = localStorage.getItem("income") || null;
   if (isValidEmail(email)) {
     set(ref(db, "financeBuddy/" + id), {
       email: email,
@@ -57,8 +54,8 @@ async function setData(email) {
       rowId: rowId,
     })
       .then(() => {
-        console.log("Data saved successfully");
         if (!messageFired) {
+          console.log("Data saved successfully");
           alert(`Your budget was saved to the database successfully`);
           JSON.stringify(
             localStorage.setItem("messageFired", (messageFired = true))
@@ -76,6 +73,7 @@ async function setData(email) {
 }
 
 async function sendData(email) {
+  const income = localStorage.getItem("income") || null;
   if (isValidEmail(email)) {
     if (income) {
       setData(email);
@@ -119,9 +117,9 @@ function isValidEmail(email) {
 
 function saveFinanceData() {
   let email = localStorage.getItem("email") || getEmailFromUser();
-
+  alert("Saving...");
   if (email) {
-    sendData(email);
+    sendData(email).then(alert("Saved!"));
   }
 }
 
@@ -163,6 +161,9 @@ async function retriveDataFromDatabase(email) {
         localStorage.setItem("currency", data.currency);
       } else {
         console.log("Data not found");
+        setTimeout(() => {
+          updateBudget();
+        }, 1000);
       }
     })
     .catch((err) => {
