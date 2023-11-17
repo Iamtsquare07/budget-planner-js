@@ -307,7 +307,7 @@ hr {
 
 .details {
     display: flex;
-    align-items:center;
+    align-items: center;
     justify-content: center;
 }
 
@@ -378,7 +378,16 @@ input:checked+.slider:before {
 
 /* End Styles for sliding toggle switch */
 
-@media only screen and (min-width: 1024px) {
+@media only screen and (min-width: 820px) {
+    .root {
+        flex-direction: column;
+        padding: 10px;
+        padding-top: 5px;
+        width: 60%;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
     .root {
         flex-direction: row-reverse;
         padding: 10px;
