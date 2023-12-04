@@ -380,10 +380,10 @@ input:checked+.slider:before {
 
 @media only screen and (min-width: 820px) {
     .root {
-        flex-direction: column;
+        flex-direction: row-reverse;
         padding: 10px;
         padding-top: 5px;
-        width: 60%;
+        width: 90%;
     }
 }
 
